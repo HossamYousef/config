@@ -1,0 +1,34 @@
+{
+  "name": "avoxx/config",
+  "type": "library",
+  "description": "The Config package includes a file configuration loader",
+  "keywords": ["framework", "config", "components", "avoxx"],
+  "homepage": "https://avoxx.org",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Merlin Christen",
+      "email": "merloxx@avoxx.org",
+      "homepage": "https://merlinchristen.de"
+    }
+  ],
+  "require": {
+    "php": ">=5.6",
+    "symfony/yaml": "^3.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.4",
+    "squizlabs/php_codesniffer": "^2.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Avoxx\\Config\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Avoxx\\Config\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "dev"
+}

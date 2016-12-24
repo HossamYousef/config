@@ -18,14 +18,10 @@
 The AVOXX packages utilizes [Composer](https://getcomposer.org) to manage their dependencies.
 So, before using any of the AVOXX packages, make sure you have Composer installed on your machine.
 
-	composer require avoxx/config
-	
-This will install the `avoxx/config` package and all required dependencies.
-	
-##Includes
+    composer require avoxx/config
 
-* Config (a configuration file loader)
+This will install the `avoxx/config` package and all required dependencies.
 
 ##Documentation
 
-* [Config](https://avoxx.org/docs/v1/config/config)
+* [Config](https://avoxx.org/docs/v1/config/config) (a configuration file loader)

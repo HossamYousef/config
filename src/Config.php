@@ -28,11 +28,12 @@ namespace Avoxx\Config;
  * THE SOFTWARE.
  */
 use ArrayAccess;
+use Avoxx\Config\Contracts\ConfigInterface;
 use Avoxx\Config\Exceptions\EmptyDirectoryException;
 use Avoxx\Config\Exceptions\FileNotFoundException;
 use Avoxx\Config\Exceptions\UnsupportedFileFormatException;
 
-class Config implements ArrayAccess
+class Config implements ConfigInterface, ArrayAccess
 {
     /**
      * The configuration data.

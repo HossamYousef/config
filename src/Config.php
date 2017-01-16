@@ -61,7 +61,7 @@ class Config implements ArrayAccess
     public function __construct($file = null)
     {
         if (! is_null($file)) {
-            return $this->load($file);
+            $this->load($file);
         }
     }
 
@@ -70,10 +70,10 @@ class Config implements ArrayAccess
      *
      * @param string|array $file
      *
-     * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
      * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
-     * @throws \Avoxx\Config\Exceptions\UnsupportedFileFormatException if the file format is not supported.
+     * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
      * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
+     * @throws \Avoxx\Config\Exceptions\UnsupportedFileFormatException if the file format is not supported.
      */
     public function load($file)
     {
@@ -174,6 +174,7 @@ class Config implements ArrayAccess
      *
      * @return array
      *
+     * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
      * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
      */
     protected function getFile($file)
@@ -226,6 +227,7 @@ class Config implements ArrayAccess
      *
      * @return array
      *
+     * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
      * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
      */
     protected function getArrayFiles(array $files)

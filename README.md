@@ -1,4 +1,4 @@
-<p align="center"><a href="https://avoxx.org"><img width="250"src="https://avoxx.org/assets/img/logos-components/config-components.svg"/></a></p>
+<p align="center"><a href="https://avoxx.org"><img width="250" src="https://avoxx.org/assets/img/logos-components/config-components.svg"/></a></p>
 
 <p align="center">
 <a href="https://travis-ci.org/avoxx/config"><img title="Build Status" src="https://travis-ci.org/avoxx/config.svg?branch=master"/></a>
@@ -24,4 +24,4 @@ This will install the `avoxx/config` package and all required dependencies.
 
 ##Documentation
 
-* [Config](https://avoxx.org/docs/v1/config/config) (a configuration file loader)
+* [Config](https://avoxx.org/docs/master/config/config) (a configuration file loader)

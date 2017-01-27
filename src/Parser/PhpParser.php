@@ -68,7 +68,7 @@ class PhpParser implements ParserInterface
 
         if (! is_array($data)) {
             throw new UnsupportedFileFormatException(sprintf(
-               'File "%s" must return an array',
+                'File "%s" must return an array',
                 $file
             ));
         }

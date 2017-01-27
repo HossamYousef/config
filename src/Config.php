@@ -28,7 +28,7 @@ namespace Avoxx\Config;
  * THE SOFTWARE.
  */
 
-class Config extends AbstractConfig 
+class Config extends AbstractConfig
 {
     /**
      * Create a new config instance and set a configuration file.

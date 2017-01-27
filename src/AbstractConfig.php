@@ -1,6 +1,7 @@
 <?php
 
 namespace Avoxx\Config;
+
 /*
  * AVOXX- PHP Framework Components
  *
@@ -32,7 +33,8 @@ use Avoxx\Config\Exceptions\EmptyDirectoryException;
 use Avoxx\Config\Exceptions\FileNotFoundException;
 use Avoxx\Config\Exceptions\UnsupportedFileFormatException;
 
-abstract class AbstractConfig implements ArrayAccess, ConfigInterface {
+abstract class AbstractConfig implements ArrayAccess, ConfigInterface
+{
     /**
      * The configuration data.
      *

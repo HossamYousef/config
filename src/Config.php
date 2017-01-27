@@ -27,28 +27,9 @@ namespace Avoxx\Config;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-use ArrayAccess;
-use Avoxx\Config\Contracts\ConfigInterface;
-use Avoxx\Config\Exceptions\EmptyDirectoryException;
-use Avoxx\Config\Exceptions\FileNotFoundException;
-use Avoxx\Config\Exceptions\UnsupportedFileFormatException;
 
-class Config implements ConfigInterface, ArrayAccess
+class Config extends AbstractConfig
 {
-    /**
-     * The configuration data.
-     *
-     * @var array
-     */
-    protected $data = [];
-
-    /**
-     * The parser class wrapper.
-     *
-     * @var string
-     */
-    protected $parser = 'Avoxx\\Config\\Parser\\%sParser';
-
     /**
      * Create a new config instance and set a configuration file.
      *
@@ -65,27 +46,7 @@ class Config implements ConfigInterface, ArrayAccess
             $this->load($file);
         }
     }
-
-    /**
-     * Load a configuration file.
-     *
-     * @param string|array $file
-     *
-     * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
-     * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
-     * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
-     * @throws \Avoxx\Config\Exceptions\UnsupportedFileFormatException if the file format is not supported.
-     */
-    public function load($file)
-    {
-        $files = $this->getFile($file);
-
-        foreach ($files as $file) {
-            $parser = $this->getFileParser($this->getFileExtension($file));
-            $this->data = array_replace_recursive($this->data, (array) $parser->parse($file));
-        }
-    }
-
+    
     /**
      * Set a configuration value.
      *
@@ -167,121 +128,7 @@ class Config implements ConfigInterface, ArrayAccess
     {
         return $this->data;
     }
-
-    /**
-     * Get a configuration file.
-     *
-     * @param $file
-     *
-     * @return array
-     *
-     * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
-     * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
-     */
-    protected function getFile($file)
-    {
-        if (is_array($file)) {
-            return $this->getArrayFiles($file);
-        }
-
-        if (is_dir($file)) {
-            return $this->getDirFiles($file);
-        }
-
-        if (! file_exists($file)) {
-            throw new FileNotFoundException(sprintf(
-                'File "%s" does not exists',
-                $file
-            ));
-        }
-
-        return [$file];
-    }
-
-    /**
-     * Get all files from a directory.
-     *
-     * @param $dir
-     *
-     * @return array
-     *
-     * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
-     */
-    protected function getDirFiles($dir)
-    {
-        $files = glob("{$dir}/*.*");
-
-        if (empty($files)) {
-            throw new EmptyDirectoryException(sprintf(
-                'No files in directory "%s"',
-                $dir
-            ));
-        }
-
-        return $files;
-    }
-
-    /**
-     * Get all files from an array.
-     *
-     * @param array $files
-     *
-     * @return array
-     *
-     * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
-     * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
-     */
-    protected function getArrayFiles(array $files)
-    {
-        $fileArray = [];
-
-        foreach ($files as $file) {
-            try {
-                $fileArray = array_merge($files, $this->getFile($file));
-            } catch (FileNotFoundException $e) {
-                throw $e;
-            }
-        }
-
-        return $fileArray;
-    }
-
-    /**
-     * Get the file extension.
-     *
-     * @param string $file
-     *
-     * @return mixed
-     */
-    protected function getFileExtension($file)
-    {
-        return pathinfo($file, PATHINFO_EXTENSION);
-    }
-
-    /**
-     * Get the file parser instance.
-     *
-     * @param string $fileExtension
-     *
-     * @return \Avoxx\Config\Contracts\ParserInterface
-     *
-     * @throws \Avoxx\Config\Exceptions\UnsupportedFileFormatException if the file format is not supported.
-     */
-    protected function getFileParser($fileExtension)
-    {
-        $parser = str_replace('Yml', 'Yaml', ucfirst($fileExtension));
-        $parser = sprintf($this->parser, $parser);
-
-        if (! class_exists($parser)) {
-            throw new UnsupportedFileFormatException(sprintf(
-                'Unsupported file format "%s"',
-                $fileExtension
-            ));
-        }
-
-        return new $parser;
-    }
-
+    
     /**
      * Set a configuration value via ArrayAccess.
      *

@@ -6,7 +6,9 @@ namespace Avoxx\Config;
  * AVOXX- PHP Framework Components
  *
  * @author    Merlin Christen <merloxx@avoxx.org>
+ * @author    Hossam Youssef <hossam.mox@gmail.com>
  * @copyright Copyright (c) 2016 - 2017 Merlin Christen
+ * @copyright Copyright (c) 2016 - 2017 Hossam Youssef
  * @license   The MIT License (MIT)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,9 +29,11 @@ namespace Avoxx\Config;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+use Avoxx\Utility\ArrayHelper;
 
 class Config extends AbstractConfig
 {
+
     /**
      * Create a new config instance and set a configuration file.
      *
@@ -46,7 +50,27 @@ class Config extends AbstractConfig
             $this->load($file);
         }
     }
-    
+
+    /**
+     * Load a configuration file.
+     *
+     * @param string|array $file
+     *
+     * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
+     * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
+     * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
+     * @throws \Avoxx\Config\Exceptions\UnsupportedFileFormatException if the file format is not supported.
+     */
+    public function load($file)
+    {
+        $files = $this->getFile($file);
+
+        foreach ($files as $file) {
+            $parser = $this->getFileParser($this->getFileExtension($file));
+            $this->data = array_replace_recursive($this->data, (array) $parser->parse($file));
+        }
+    }
+
     /**
      * Set a configuration value.
      *
@@ -55,18 +79,7 @@ class Config extends AbstractConfig
      */
     public function set($key, $value)
     {
-        $keys = explode('.', $key);
-        $data = &$this->data;
-
-        while ($new = array_shift($keys)) {
-            $data = &$data[$new];
-        }
-
-        $this->data[$key] = $data = $value;
-
-        if (strstr($key, '.')) {
-            unset($this->data[$key]);
-        }
+        ArrayHelper::set($this->data, $key, $value);
     }
 
     /**
@@ -79,20 +92,7 @@ class Config extends AbstractConfig
      */
     public function get($key, $default = null)
     {
-        $keys = explode('.', $key);
-        $data = $this->data;
-
-        foreach ($keys as $key) {
-            if (isset($data[$key])) {
-                $data = $data[$key];
-                continue;
-            } else {
-                $data = $default;
-                break;
-            }
-        }
-
-        return $data;
+        return ArrayHelper::get($this->data, $key, $default);
     }
 
     /**
@@ -104,19 +104,17 @@ class Config extends AbstractConfig
      */
     public function has($key)
     {
-        $keys = explode('.', $key);
-        $data = $this->data;
+        return ArrayHelper::has($this->data, $key);
+    }
 
-        foreach ($keys as $key) {
-            if (isset($data[$key])) {
-                $data = $data[$key];
-                continue;
-            } else {
-                return false;
-            }
-        }
-
-        return true;
+    /**
+     * Remove a configuration value.
+     *
+     * @param string|array $key
+     */
+    public function remove($key)
+    {
+        ArrayHelper::forget($this->data, $key);
     }
 
     /**
@@ -128,7 +126,7 @@ class Config extends AbstractConfig
     {
         return $this->data;
     }
-    
+
     /**
      * Set a configuration value via ArrayAccess.
      *
@@ -171,6 +169,6 @@ class Config extends AbstractConfig
      */
     public function offsetUnset($key)
     {
-        $this->set($key, null);
+        $this->remove($key);
     }
 }

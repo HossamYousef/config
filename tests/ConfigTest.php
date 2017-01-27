@@ -212,6 +212,17 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->config->has('nope'));
     }
 
+    public function testRemoveReturnsNull()
+    {
+        $this->config->set('foo', 'bar');
+
+        $this->assertEquals('bar', $this->config->get('foo'));
+
+        $this->config->remove('foo');
+
+        $this->assertNull($this->config->get('foo'));
+    }
+
     public function testAll()
     {
         $config = new Config;

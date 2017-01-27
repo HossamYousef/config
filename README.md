@@ -10,7 +10,7 @@
 
 ##Requirements
 
-* PHP 5.6 or greater
+* PHP 7.0 or greater
 * [Symfony Yaml Component](https://github.com/symfony/Yaml)
 
 ##Installation

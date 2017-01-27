@@ -6,7 +6,9 @@ namespace Avoxx\Config;
  * AVOXX- PHP Framework Components
  *
  * @author    Merlin Christen <merloxx@avoxx.org>
+ * @author    Hossam Youssef <hossam.mox@gmail.com>
  * @copyright Copyright (c) 2016 - 2017 Merlin Christen
+ * @copyright Copyright (c) 2016 - 2017 Hossam Youssef
  * @license   The MIT License (MIT)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -35,38 +37,21 @@ use Avoxx\Config\Exceptions\UnsupportedFileFormatException;
 
 abstract class AbstractConfig implements ArrayAccess, ConfigInterface
 {
+
     /**
      * The configuration data.
      *
      * @var array
      */
     protected $data = [];
+
     /**
      * The parser class wrapper.
      *
      * @var string
      */
     protected $parser = 'Avoxx\\Config\\Parser\\%sParser';
-    
-    /**
-     * Load a configuration file.
-     *
-     * @param string|array $file
-     *
-     * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
-     * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
-     * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
-     * @throws \Avoxx\Config\Exceptions\UnsupportedFileFormatException if the file format is not supported.
-     */
-    public function load($file)
-    {
-        $files = $this->getFile($file);
-        foreach ($files as $file) {
-            $parser = $this->getFileParser($this->getFileExtension($file));
-            $this->data = array_replace_recursive($this->data, (array) $parser->parse($file));
-        }
-    }
-    
+
     /**
      * Get a configuration file.
      *
@@ -82,18 +67,21 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
         if (is_array($file)) {
             return $this->getArrayFiles($file);
         }
+
         if (is_dir($file)) {
             return $this->getDirFiles($file);
         }
+
         if (! file_exists($file)) {
             throw new FileNotFoundException(sprintf(
                 'File "%s" does not exists',
                 $file
             ));
         }
+
         return [$file];
     }
-    
+
     /**
      * Get all files from an array.
      *
@@ -107,6 +95,7 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
     protected function getArrayFiles(array $files)
     {
         $fileArray = [];
+
         foreach ($files as $file) {
             try {
                 $fileArray = array_merge($files, $this->getFile($file));
@@ -114,9 +103,10 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
                 throw $e;
             }
         }
+
         return $fileArray;
     }
-    
+
     /**
      * Get all files from a directory.
      *
@@ -129,15 +119,17 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
     protected function getDirFiles($dir)
     {
         $files = glob("{$dir}/*.*");
+
         if (empty($files)) {
             throw new EmptyDirectoryException(sprintf(
                 'No files in directory "%s"',
                 $dir
             ));
         }
+
         return $files;
     }
-    
+
     /**
      * Get the file parser instance.
      *
@@ -151,15 +143,17 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
     {
         $parser = str_replace('Yml', 'Yaml', ucfirst($fileExtension));
         $parser = sprintf($this->parser, $parser);
+
         if (! class_exists($parser)) {
             throw new UnsupportedFileFormatException(sprintf(
                 'Unsupported file format "%s"',
                 $fileExtension
             ));
         }
+
         return new $parser;
     }
-    
+
     /**
      * Get the file extension.
      *

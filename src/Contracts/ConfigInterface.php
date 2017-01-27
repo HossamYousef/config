@@ -71,6 +71,13 @@ interface ConfigInterface
     public function has($key);
 
     /**
+     * Remove a configuration value.
+     *
+     * @param string|array $key
+     */
+    public function remove($key);
+
+    /**
      * Return all configuration values.
      *
      * @return array

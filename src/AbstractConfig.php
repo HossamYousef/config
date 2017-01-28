@@ -33,7 +33,7 @@ use ArrayAccess;
 use Avoxx\Config\Contracts\ConfigInterface;
 use Avoxx\Config\Exceptions\EmptyDirectoryException;
 use Avoxx\Config\Exceptions\FileNotFoundException;
-use Avoxx\Config\Exceptions\UnsupportedFileFormatException;
+use Avoxx\Config\Exceptions\UnsupportedFileExtensionException;
 
 abstract class AbstractConfig implements ArrayAccess, ConfigInterface
 {
@@ -73,10 +73,7 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
         }
 
         if (! file_exists($file)) {
-            throw new FileNotFoundException(sprintf(
-                'File "%s" does not exists',
-                $file
-            ));
+            throw new FileNotFoundException($file);
         }
 
         return [$file];
@@ -121,10 +118,7 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
         $files = glob("{$dir}/*.*");
 
         if (empty($files)) {
-            throw new EmptyDirectoryException(sprintf(
-                'No files in directory "%s"',
-                $dir
-            ));
+            throw new EmptyDirectoryException($dir);
         }
 
         return $files;
@@ -137,7 +131,7 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
      *
      * @return \Avoxx\Config\Contracts\ParserInterface
      *
-     * @throws \Avoxx\Config\Exceptions\UnsupportedFileFormatException if the file format is not supported.
+     * @throws \Avoxx\Config\Exceptions\UnsupportedFileExtensionException if the file extension is not supported.
      */
     protected function getFileParser($fileExtension)
     {
@@ -145,10 +139,7 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
         $parser = sprintf($this->parser, $parser);
 
         if (! class_exists($parser)) {
-            throw new UnsupportedFileFormatException(sprintf(
-                'Unsupported file format "%s"',
-                $fileExtension
-            ));
+            throw new UnsupportedFileExtensionException($fileExtension);
         }
 
         return new $parser;

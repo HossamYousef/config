@@ -111,7 +111,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Avoxx\Config\Exceptions\UnsupportedFileFormatException
+     * @expectedException \Avoxx\Config\Exceptions\UnsupportedFileExtensionException
      */
     public function testNotSupportedFileExtensionThrowsException()
     {

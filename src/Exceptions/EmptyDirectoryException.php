@@ -34,6 +34,8 @@ class EmptyDirectoryException extends \Exception
      * Constructor
      *
      * @param string $dir
+     * @param int $code
+     * @param \Exception $previous (Optional)
      */
     public function __construct($dir, $code = 0, Exception $previous = null)
     {

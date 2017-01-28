@@ -34,6 +34,8 @@ class UnsupportedFileExtensionException extends \Exception
      * Constructor
      *
      * @param string $fileExtension
+     * @param int $code
+     * @param \Exception $previous (Optional)
      */
     public function __construct($fileExtension, $code = 0, Exception $previous = null)
     {

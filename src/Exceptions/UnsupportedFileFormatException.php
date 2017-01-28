@@ -30,5 +30,14 @@ namespace Avoxx\Config\Exceptions;
 
 class UnsupportedFileFormatException extends \Exception
 {
-
+    /**
+     * Constructor
+     *
+     * @param string $file
+     */
+    public function __construct($file, $code = 0, Exception $previous = null)
+    {
+        $message = sprintf('File "%s" must return an array', $file);
+        parent::__construct($message, $code, $previous);
+    }
 }

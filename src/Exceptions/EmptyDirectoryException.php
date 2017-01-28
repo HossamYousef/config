@@ -30,5 +30,14 @@ namespace Avoxx\Config\Exceptions;
 
 class EmptyDirectoryException extends \Exception
 {
-
+    /**
+     * Constructor
+     *
+     * @param string $dir
+     */
+    public function __construct($dir, $code = 0, Exception $previous = null)
+    {
+        $message = sprintf('No files in directory "%s"', $dir);
+        parent::__construct($message, $code, $previous);
+    }
 }

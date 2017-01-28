@@ -277,7 +277,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Avoxx\Config\Exceptions\FileParserException
      */
-    public function testPhpFileParseException ()
+    public function testPhpFileParseException()
     {
         new Config($this->fixtureDir . 'failure/parse-exception.php');
     }

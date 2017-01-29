@@ -36,10 +36,11 @@ interface ConfigInterface
      *
      * @param string|array $file
      *
-     * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
      * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
-     * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
+     * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
+     * @throws \Avoxx\Config\Exceptions\UnsupportedFileExtensionException if the file extension is not supported.
      * @throws \Avoxx\Config\Exceptions\UnsupportedFileFormatException if the file format is not supported.
+     * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
      */
     public function load($file);
 

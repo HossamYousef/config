@@ -27,8 +27,18 @@ namespace Avoxx\Config\Exceptions;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+use Avoxx\Config\TErrorException;
+use Avoxx\Config\ErrorException;
 
-class FileParserException extends \Exception
+class FileParserException extends ErrorException
 {
+    use TErrorException;
 
+    /**
+     * @return Avoxx\Config\Exceptions\FileParserException
+     */
+    public static function Parser()
+    {
+        return new self('There was an error parsing the file');
+    }
 }

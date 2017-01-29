@@ -49,11 +49,9 @@ class YamlParser implements ParserInterface
         try {
             return Yaml::parse(file_get_contents($file));
         } catch (ParseException $e) {
-            throw new FileParserException(sprintf(
-                '%s in file %s',
-                $e->getMessage(),
-                $file
-            ));
+            throw FileParserException::Parser()
+                ->setMessage('Error parsing YAML file')
+                ->setPrevious($e);
         }
     }
 }

@@ -52,13 +52,12 @@ class XmlParser implements ParserInterface
             $errors = libxml_get_errors();
             $error = array_pop($errors);
 
-            throw new FileParserException(sprintf(
-                '%s with code %s in file %s on line %s',
-                $error->message,
-                $error->code,
-                $error->file,
-                $error->line
-            ));
+            throw FileParserException::Parser()
+                ->setMessage($error->message)
+                ->setCode($error->code)
+                ->setType($error->level)
+                ->setFile($error->file)
+                ->setFile($error->line);
         }
 
         return json_decode(json_encode($data), true);

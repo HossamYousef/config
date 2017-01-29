@@ -52,13 +52,11 @@ class JsonParser implements ParserInterface
             if (function_exists('json_last_error_msg')) {
                 $error = json_last_error_msg();
             }
-
-            throw new FileParserException(sprintf(
-                '%s of type %s in file %s',
-                $error,
-                json_last_error(),
-                $file
-            ));
+            
+            throw FileParserException::Parser()
+                ->setMessage($error)
+                ->setType(json_last_error())
+                ->setFile($file);
         }
 
         return $data;

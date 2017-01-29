@@ -48,7 +48,8 @@ class IniParser implements ParserInterface
         try {
             return parse_ini_file($file, true);
         } catch (Exception $e) {
-            throw new FileParserException($e->getMessage());
+            throw FileParserException::Parser()
+                ->setPrevious($e);
         }
     }
 }

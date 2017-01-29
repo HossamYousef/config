@@ -51,19 +51,13 @@ class PhpParser implements ParserInterface
         try {
             $data = require $file;
         } catch (ParseError $e) {
-            throw new FileParserException(sprintf(
-                '%s in file %s on line %s',
-                $e->getMessage(),
-                $e->getFile(),
-                $e->getLine()
-            ));
+            throw FileParserException::Parser()
+               ->setMessage('PHP file threw an exception')
+               ->setPrevious($e);
         } catch (Exception $e) {
-            throw new FileParserException(sprintf(
-                '%s in file %s on line %s',
-                $e->getMessage(),
-                $e->getFile(),
-                $e->getLine()
-            ));
+            throw FileParserException::Parser()
+                ->setMessage('PHP file threw an exception')
+                ->setPrevious($e);
         }
 
         if (! is_array($data)) {

@@ -40,5 +40,5 @@ interface ParserInterface
      *
      * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
      */
-    public function parse($file);
+    public function parse($file): array;
 }

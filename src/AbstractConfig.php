@@ -62,7 +62,7 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
      * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
      * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
      */
-    protected function getFile($file)
+    protected function getFile($file): array
     {
         if (is_array($file)) {
             return $this->getArrayFiles($file);
@@ -72,11 +72,11 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
             return $this->getDirFiles($file);
         }
 
-        if (! file_exists($file)) {
+        if (!file_exists($file)) {
             throw new FileNotFoundException($file);
         }
 
-        return [$file];
+        return (array) [$file];
     }
 
     /**
@@ -89,7 +89,7 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
      * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
      * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
      */
-    protected function getArrayFiles(array $files)
+    protected function getArrayFiles(array $files): array
     {
         $fileArray = [];
 
@@ -101,7 +101,7 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
             }
         }
 
-        return $fileArray;
+        return (array) $fileArray;
     }
 
     /**
@@ -113,7 +113,7 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
      *
      * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
      */
-    protected function getDirFiles($dir)
+    protected function getDirFiles($dir): array
     {
         $files = glob("{$dir}/*.*");
 
@@ -121,7 +121,7 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
             throw new EmptyDirectoryException($dir);
         }
 
-        return $files;
+        return (array) $files;
     }
 
     /**
@@ -138,11 +138,11 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
         $parser = str_replace('Yml', 'Yaml', ucfirst($fileExtension));
         $parser = sprintf($this->parser, $parser);
 
-        if (! class_exists($parser)) {
+        if (!class_exists($parser)) {
             throw new UnsupportedFileExtensionException($fileExtension);
         }
 
-        return new $parser;
+        return (object) new $parser;
     }
 
     /**
@@ -150,10 +150,10 @@ abstract class AbstractConfig implements ArrayAccess, ConfigInterface
      *
      * @param string $file
      *
-     * @return mixed
+     * @return string
      */
-    protected function getFileExtension($file)
+    protected function getFileExtension($file): string
     {
-        return pathinfo($file, PATHINFO_EXTENSION);
+        return (string) pathinfo($file, PATHINFO_EXTENSION);
     }
 }

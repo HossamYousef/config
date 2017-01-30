@@ -42,23 +42,23 @@ class JsonParser implements ParserInterface
      *
      * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
      */
-    public function parse($file)
+    public function parse($file): array
     {
         $data = json_decode(file_get_contents($file), true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            $error  = 'Syntax error';
+            $error = 'Syntax error';
 
             if (function_exists('json_last_error_msg')) {
                 $error = json_last_error_msg();
             }
-            
+
             throw FileParserException::Parser()
                 ->setMessage($error)
                 ->setType(json_last_error())
                 ->setFile($file);
         }
 
-        return $data;
+        return (array) $data;
     }
 }

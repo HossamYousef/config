@@ -41,13 +41,13 @@ class Config extends AbstractConfig
      *
      * @throws \Avoxx\Config\Exceptions\FileNotFoundException if the file does not exists.
      * @throws \Avoxx\Config\Exceptions\EmptyDirectoryException if there are no files in the directory.
-	 * @throws \Avoxx\Config\Exceptions\UnsupportedFileExtensionException if the file extension is not supported.
+     * @throws \Avoxx\Config\Exceptions\UnsupportedFileExtensionException if the file extension is not supported.
      * @throws \Avoxx\Config\Exceptions\UnsupportedFileFormatException if the file format is not supported.
      * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
      */
     public function __construct($file = null)
     {
-        if (! is_null($file)) {
+        if (!is_null($file)) {
             $this->load($file);
         }
     }
@@ -68,7 +68,7 @@ class Config extends AbstractConfig
         $files = $this->getFile($file);
 
         foreach ($files as $file) {
-            $parser = $this->getFileParser($this->getFileExtension($file));
+            $parser     = $this->getFileParser($this->getFileExtension($file));
             $this->data = array_replace_recursive($this->data, (array) $parser->parse($file));
         }
     }
@@ -88,7 +88,7 @@ class Config extends AbstractConfig
      * Return a configuration value.
      *
      * @param string $key
-     * @param null   $default
+     * @param mixed  $default
      *
      * @return mixed
      */
@@ -104,9 +104,9 @@ class Config extends AbstractConfig
      *
      * @return bool
      */
-    public function has($key)
+    public function has($key): bool
     {
-        return ArrayHelper::has($this->data, $key);
+        return (bool) ArrayHelper::has($this->data, $key);
     }
 
     /**
@@ -124,9 +124,9 @@ class Config extends AbstractConfig
      *
      * @return array
      */
-    public function all()
+    public function all(): array
     {
-        return $this->data;
+        return (array) $this->data;
     }
 
     /**

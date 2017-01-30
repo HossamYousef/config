@@ -46,24 +46,24 @@ class PhpParser implements ParserInterface
      * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
      * @throws \Avoxx\Config\Exceptions\UnsupportedFileFormatException if the config file content is invalid.
      */
-    public function parse($file)
+    public function parse($file): array
     {
         try {
             $data = require $file;
         } catch (ParseError $e) {
             throw FileParserException::Parser()
-               ->setMessage('PHP file threw an exception')
-               ->setPrevious($e);
+                ->setMessage('PHP file threw an exception')
+                ->setPrevious($e);
         } catch (Exception $e) {
             throw FileParserException::Parser()
                 ->setMessage('PHP file threw an exception')
                 ->setPrevious($e);
         }
 
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             throw new UnsupportedFileFormatException($file);
         }
 
-        return $data;
+        return (array) $data;
     }
 }

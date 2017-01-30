@@ -69,7 +69,7 @@ interface ConfigInterface
      *
      * @return bool
      */
-    public function has($key);
+    public function has($key): bool;
 
     /**
      * Remove a configuration value.

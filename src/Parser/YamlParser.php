@@ -29,8 +29,8 @@ namespace Avoxx\Config\Parser;
  */
 use Avoxx\Config\Contracts\ParserInterface;
 use Avoxx\Config\Exceptions\FileParserException;
-use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 class YamlParser implements ParserInterface
 {
@@ -44,10 +44,10 @@ class YamlParser implements ParserInterface
      *
      * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
      */
-    public function parse($file)
+    public function parse($file): array
     {
         try {
-            return Yaml::parse(file_get_contents($file));
+            return (array) Yaml::parse(file_get_contents($file));
         } catch (ParseException $e) {
             throw FileParserException::Parser()
                 ->setMessage('Error parsing YAML file')

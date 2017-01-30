@@ -42,7 +42,7 @@ class XmlParser implements ParserInterface
      *
      * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
      */
-    public function parse($file)
+    public function parse($file): array
     {
         libxml_use_internal_errors(true);
 
@@ -50,16 +50,16 @@ class XmlParser implements ParserInterface
 
         if ($data === false) {
             $errors = libxml_get_errors();
-            $error = array_pop($errors);
+            $error  = array_pop($errors);
 
             throw FileParserException::Parser()
                 ->setMessage($error->message)
                 ->setCode($error->code)
                 ->setType($error->level)
                 ->setFile($error->file)
-                ->setFile($error->line);
+                ->setLine($error->line);
         }
 
-        return json_decode(json_encode($data), true);
+        return (array) json_decode(json_encode($data), true);
     }
 }

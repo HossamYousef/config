@@ -43,10 +43,10 @@ class IniParser implements ParserInterface
      *
      * @throws \Avoxx\Config\Exceptions\FileParserException if there is a parsing error.
      */
-    public function parse($file)
+    public function parse($file): array
     {
         try {
-            return parse_ini_file($file, true);
+            return (array) parse_ini_file($file, true);
         } catch (Exception $e) {
             throw FileParserException::Parser()
                 ->setPrevious($e);

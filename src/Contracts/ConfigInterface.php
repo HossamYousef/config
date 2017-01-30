@@ -56,7 +56,7 @@ interface ConfigInterface
      * Return a configuration value.
      *
      * @param string $key
-     * @param null   $default
+     * @param mixed  $default
      *
      * @return mixed
      */

@@ -38,17 +38,17 @@ trait TErrorException
      */
     public function setMessage($message)
     {
-        $this->message = (string)$message;
+        $this->message = (string) $message;
         return $this;
     }
-    
+
     /**
      * @param int $code
      * @return static
      */
     public function setCode($code)
     {
-        $this->code = (int)$code;
+        $this->code = (int) $code;
         return $this;
     }
 
@@ -58,7 +58,7 @@ trait TErrorException
      */
     public function setType($type)
     {
-        $this->severity = (int)$type;
+        $this->severity = (int) $type;
         return $this;
     }
 
@@ -68,7 +68,7 @@ trait TErrorException
      */
     public function setFile($file)
     {
-        $this->file = (string)$file;
+        $this->file = (string) $file;
         return $this;
     }
 
@@ -78,10 +78,10 @@ trait TErrorException
      */
     public function setLine($line)
     {
-        $this->lineno = (int)$line;
+        $this->line = (int) $line;
         return $this;
     }
-    
+
     /**
      * @param Exception $previous
      * @return static
